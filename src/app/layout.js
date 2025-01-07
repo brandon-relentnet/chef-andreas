@@ -22,12 +22,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       {/* Apply the Stuyvesant class to the body and use Noto Serif Georgian as needed */}
-      <body className={`${Stuyvesant.className} ${notoSerifGeorgian.className}`}>
-        <div className='absolute z-50'>
+      <body className={`${Stuyvesant.className} ${notoSerifGeorgian.className} bg-cream`}>
+        <div className='absolute z-50 top-0'>
+          <Link href="/" className='mr-2'>HOME</Link>
           <Link href="/admin" className='mr-2'>ADMIN</Link>
           <Link href="/menu" className='mr-2'>MENU</Link>
           <Link href="/order" className='mr-2'>ORDER</Link>
-          <Link href="/" className='mr-2'>HOME</Link>
         </div>
         {children}
       </body>

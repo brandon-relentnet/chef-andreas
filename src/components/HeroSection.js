@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function HeroSection() {
     return (
@@ -23,29 +24,29 @@ export default function HeroSection() {
                 </div>
 
                 {/* Title */}
-                <h1 className="text-5xl font-bold text-deepRed leading-tight md:text-9xl">
+                <h1 className="font-bold text-deepRed leading-tight">
                     Welcome to <span className="text-forestGreen">Chef Andreas</span>
                 </h1>
 
                 {/* Subtitle */}
-                <p className="text-lg text-softBrown mt-4 md:text-xl">
+                <p className="text-softBrown mt-4 text-xl">
                     Buon Appetito! Traditional Italian dishes, made with love and care.
                 </p>
 
                 {/* Call to Action Buttons */}
                 <div className="flex flex-wrap justify-center mt-8 gap-4">
-                    <a
+                    <Link
                         href="/menu"
                         className="bg-deepRed text-cream font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-forestGreen transition"
                     >
                         Explore Menu
-                    </a>
-                    <a
+                    </Link>
+                    <Link
                         href="/order"
                         className="bg-goldenYellow text-deepRed font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-forestGreen hover:text-cream transition"
                     >
                         Order Online
-                    </a>
+                    </Link>
                 </div>
             </div>
         </div>

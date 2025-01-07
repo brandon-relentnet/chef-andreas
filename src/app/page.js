@@ -6,7 +6,12 @@ export default function Home() {
   return (
     <>
       <HeroSection />
-      <Menu />
+      <div className="page-container">
+        <h1 className="font-bold text-deepRed text-center mb-12">
+          Menu
+        </h1>
+        <Menu />
+      </div>
     </>
   );
 }

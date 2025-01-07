@@ -25,40 +25,34 @@ export default async function Menu() {
     }
 
     return (
-        <div className="bg-cream min-h-screen p-8">
-            <div className="max-w-4xl mx-auto">
-                <h1 className="text-8xl font-bold text-deepRed text-center mb-12">
-                    Chef Andreas' Menu
-                </h1>
-
-                {menuData.map((category, index) => (
-                    <section key={index} className="mb-12">
-                        <h2 className="text-6xl font-bold text-forestGreen mb-4">
-                            {category.category}
-                        </h2>
-                        <ul className="space-y-4">
-                            {category.items.map((item, itemIndex) => (
-                                <li
-                                    key={itemIndex}
-                                    className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-300 pb-4"
-                                >
-                                    <div>
-                                        <h3 className="text-4xl font-bold text-deepRed">
-                                            {item.name}
-                                        </h3>
-                                        <p className="text-softBrown text-sm mt-1">
-                                            {item.description}
-                                        </p>
-                                    </div>
-                                    <span className="text-deepRed font-semibold text-lg mt-2 md:mt-0">
-                                        ${item.price}
-                                    </span>
-                                </li>
-                            ))}
-                        </ul>
-                    </section>
-                ))}
-            </div>
+        <div className="bg-cream min-h-screen p-8 max-w-4xl mx-auto ">
+            {menuData.map((category, index) => (
+                <section key={index} className="mb-12">
+                    <h2 className="font-bold text-forestGreen mb-4">
+                        {category.category}
+                    </h2>
+                    <ul className="space-y-4">
+                        {category.items.map((item, itemIndex) => (
+                            <li
+                                key={itemIndex}
+                                className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-300 pb-4"
+                            >
+                                <div>
+                                    <h3 className="font-bold text-deepRed">
+                                        {item.name}
+                                    </h3>
+                                    <p className="text-softBrown mt-1">
+                                        {item.description}
+                                    </p>
+                                </div>
+                                <span className="text-deepRed font-semibold mt-2 md:mt-0">
+                                    ${item.price}
+                                </span>
+                            </li>
+                        ))}
+                    </ul>
+                </section>
+            ))}
         </div>
     );
 }
