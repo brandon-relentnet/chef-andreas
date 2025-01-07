@@ -1,6 +1,8 @@
 // app/api/menu/route.js
 import { NextResponse } from "next/server";
 import db from "@/lib/db";
+import { promises as fs } from "fs";
+import path from "path";
 
 /**
  * GET: Get All Categories & Items
@@ -34,22 +36,33 @@ export async function GET() {
 }
 
 /**
- * POST: Add a new Item
- * Body: { category: "...", name: "...", description: "...", price: 12 }
+ * POST: Add a new Item (with optional image upload).
+ * Accepts multipart/form-data.
  */
 export async function POST(request) {
     try {
-        const body = await request.json();
-        const { category, name, description, price } = body;
+        const form = await request.formData();
+        const category = form.get("category");
+        const name = form.get("name");
+        const description = form.get("description");
+        const price = form.get("price");
+        const file = form.get("image"); // This is a File object (or null if none uploaded)
 
-        // 1. Find or create the category
-        let [categories] = await db.query(
+        // Validate basic fields
+        if (!category || !name || !description || !price) {
+            return NextResponse.json(
+                { error: "Missing required fields" },
+                { status: 400 }
+            );
+        }
+
+        // 1) Find or create category
+        const [catRows] = await db.query(
             `SELECT id FROM categories WHERE name = ? LIMIT 1`,
             [category]
         );
-
         let categoryId;
-        if (categories.length === 0) {
+        if (catRows.length === 0) {
             // Insert new category
             const [catResult] = await db.query(
                 `INSERT INTO categories (name) VALUES (?)`,
@@ -57,14 +70,38 @@ export async function POST(request) {
             );
             categoryId = catResult.insertId;
         } else {
-            categoryId = categories[0].id;
+            categoryId = catRows[0].id;
         }
 
-        // 2. Insert item
+        // 2) If we have a file, store it in /public/uploads
+        let imageUrl = null;
+        if (file && file.size > 0) {
+            // Convert the File into a Buffer
+            const buffer = Buffer.from(await file.arrayBuffer());
+
+            // Create a unique filename (this is a simplistic approach)
+            const ext = path.extname(file.name) || ".jpg";
+            const baseName = path.basename(file.name, ext);
+            const timestamp = Date.now();
+            const fileName = `${baseName}-${timestamp}${ext}`;
+
+            // Write the file into /public/uploads
+            const uploadsDir = path.join(process.cwd(), "public", "uploads");
+            // Ensure the folder exists
+            await fs.mkdir(uploadsDir, { recursive: true });
+            // Write the file
+            const filePath = path.join(uploadsDir, fileName);
+            await fs.writeFile(filePath, buffer);
+
+            // This is the path the user can access in the browser
+            imageUrl = "/uploads/" + fileName;
+        }
+
+        // 3) Insert item into DB, including imageUrl if we have one
         await db.query(
-            `INSERT INTO items (name, description, price, categoryId)
-       VALUES (?, ?, ?, ?)`,
-            [name, description, price, categoryId]
+            `INSERT INTO items (name, description, price, categoryId, imageUrl)
+       VALUES (?, ?, ?, ?, ?)`,
+            [name, description, parseFloat(price), categoryId, imageUrl]
         );
 
         return NextResponse.json({ message: "Item added successfully" }, { status: 201 });

@@ -19,7 +19,8 @@ export default function HeroSection() {
                         width={96}
                         height={96}
                         alt="Chef Andreas Logo"
-                        className="h-24 w-auto"
+                        style={{ height: "auto", width: "auto" }}
+                        priority
                     />
                 </div>
 

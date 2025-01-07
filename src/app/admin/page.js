@@ -2,20 +2,21 @@
 import { useState, useEffect } from "react";
 
 export default function AdminPage() {
-    // Holds the entire menu: array of categories (with sub-array of items)
     const [menuData, setMenuData] = useState([]);
 
-    // For adding a new item:
+    // For adding a new item
     const [selectedCategory, setSelectedCategory] = useState("");
-    const [newCategory, setNewCategory] = useState(""); // user-typed category
+    const [newCategory, setNewCategory] = useState("");
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
 
+    // NEW: State for the file
+    const [imageFile, setImageFile] = useState(null);
+
     // For manage mode (deleting individual / multiple items):
     const [selectedItems, setSelectedItems] = useState(new Set());
 
-    // Fetch the current menu on component mount
     useEffect(() => {
         fetchMenu();
     }, []);
@@ -35,14 +36,11 @@ export default function AdminPage() {
     }
 
     /**
-     * Handle adding a new item
-     * - If user typed a new category, use that
-     * - Otherwise, use the selected category from the dropdown
+     * Handle adding a new item with optional image upload
      */
     const handleAddItem = async (e) => {
         e.preventDefault();
 
-        // Determine final category name
         const category = newCategory.trim() ? newCategory : selectedCategory;
         if (!category || !name || !description || !price) {
             alert("Please fill all fields (category, name, description, price).");
@@ -50,12 +48,23 @@ export default function AdminPage() {
         }
 
         try {
+            // Build multipart/form-data
+            const formData = new FormData();
+            formData.append("category", category);
+            formData.append("name", name);
+            formData.append("description", description);
+            formData.append("price", price);
+
+            // If the user selected a file, append it
+            if (imageFile) {
+                formData.append("image", imageFile);
+            }
+
             const res = await fetch("/api/menu", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ category, name, description, price }),
+                // Notice: We do NOT set "Content-Type" header manually,
+                // fetch will set it automatically for FormData
+                body: formData,
             });
 
             if (!res.ok) {
@@ -69,7 +78,8 @@ export default function AdminPage() {
             setName("");
             setDescription("");
             setPrice("");
-            // Refetch menu to show the newly added item
+            setImageFile(null);
+            // Refetch menu to show the newly added item (with image if any)
             fetchMenu();
         } catch (error) {
             console.error(error);
@@ -186,22 +196,25 @@ export default function AdminPage() {
     };
 
     return (
-        <div className="p-6">
-            <h1 className="text-3xl font-bold mb-6">Admin Page</h1>
+        <div className="p-6 my-20">
+            <h1 className="text-forestGreen mb-6">Admin Page</h1>
 
             {/* ADD ITEM FORM */}
-            <form onSubmit={handleAddItem} className="mb-8 border border-gray-300 p-4 rounded">
-                <h2 className="text-2xl font-bold mb-4">Add New Menu Item</h2>
+            <form
+                onSubmit={handleAddItem}
+                className="mb-8 border border-softBrown p-4 rounded"
+            >
+                <h2 className="text-deepRed mb-4">Add New Menu Item</h2>
 
                 {/* Existing Category Dropdown */}
                 <div className="mb-4">
-                    <label className="block mb-1">Select Existing Category:</label>
+                    <label className="text-softBrown block mb-1">Select Existing Category:</label>
                     <select
                         className="border p-2 rounded w-full"
                         value={selectedCategory}
                         onChange={(e) => {
                             setSelectedCategory(e.target.value);
-                            setNewCategory(""); // Clear out any typed category
+                            setNewCategory("");
                         }}
                     >
                         <option value="">-- None / Not Selected --</option>
@@ -215,14 +228,14 @@ export default function AdminPage() {
 
                 {/* OR Add New Category */}
                 <div className="mb-4">
-                    <label className="block mb-1">Or Add a New Category:</label>
+                    <label className="text-softBrown block mb-1">Or Add a New Category:</label>
                     <input
                         type="text"
                         className="border p-2 rounded w-full"
                         value={newCategory}
                         onChange={(e) => {
                             setNewCategory(e.target.value);
-                            setSelectedCategory(""); // Clear dropdown if user types a new category
+                            setSelectedCategory("");
                         }}
                         placeholder="Type a new category name..."
                     />
@@ -230,7 +243,7 @@ export default function AdminPage() {
 
                 {/* Name */}
                 <div className="mb-4">
-                    <label className="block mb-1">Item Name:</label>
+                    <label className="text-softBrown block mb-1">Item Name:</label>
                     <input
                         type="text"
                         className="border p-2 rounded w-full"
@@ -241,7 +254,7 @@ export default function AdminPage() {
 
                 {/* Description */}
                 <div className="mb-4">
-                    <label className="block mb-1">Description:</label>
+                    <label className="text-softBrown block mb-1">Description:</label>
                     <textarea
                         className="border p-2 rounded w-full"
                         value={description}
@@ -251,13 +264,27 @@ export default function AdminPage() {
 
                 {/* Price */}
                 <div className="mb-4">
-                    <label className="block mb-1">Price:</label>
+                    <label className="text-softBrown block mb-1">Price:</label>
                     <input
                         type="number"
                         step="0.01"
                         className="border p-2 rounded w-full"
                         value={price}
                         onChange={(e) => setPrice(e.target.value)}
+                    />
+                </div>
+
+                {/* NEW: Image Upload */}
+                <div className="mb-4">
+                    <label className="text-softBrown block mb-1">Image (optional):</label>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => {
+                            if (e.target.files && e.target.files.length > 0) {
+                                setImageFile(e.target.files[0]);
+                            }
+                        }}
                     />
                 </div>
 
