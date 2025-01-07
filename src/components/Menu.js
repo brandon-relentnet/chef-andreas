@@ -1,4 +1,4 @@
-export default async function MenuPage() {
+export default async function Menu() {
     let menuData = [];
 
     try {
