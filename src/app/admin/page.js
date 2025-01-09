@@ -231,7 +231,7 @@ export default function AdminPage() {
                     <label className="text-softBrown block mb-1">Or Add a New Category:</label>
                     <input
                         type="text"
-                        className="border p-2 rounded w-full"
+                        className="border p-2 rounded w-full outline-none"
                         value={newCategory}
                         onChange={(e) => {
                             setNewCategory(e.target.value);
@@ -246,7 +246,7 @@ export default function AdminPage() {
                     <label className="text-softBrown block mb-1">Item Name:</label>
                     <input
                         type="text"
-                        className="border p-2 rounded w-full"
+                        className="border p-2 rounded w-full outline-none"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                     />
@@ -256,7 +256,7 @@ export default function AdminPage() {
                 <div className="mb-4">
                     <label className="text-softBrown block mb-1">Description:</label>
                     <textarea
-                        className="border p-2 rounded w-full"
+                        className="border p-2 rounded w-full outline-none"
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                     />
@@ -268,7 +268,7 @@ export default function AdminPage() {
                     <input
                         type="number"
                         step="0.01"
-                        className="border p-2 rounded w-full"
+                        className="border p-2 rounded w-full outline-none"
                         value={price}
                         onChange={(e) => setPrice(e.target.value)}
                     />
