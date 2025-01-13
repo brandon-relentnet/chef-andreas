@@ -10,7 +10,19 @@ export default function Home() {
       <HeroSection />
 
       {/* How It Works */}
-      <section className="bg-cream py-16 px-8">
+      <section className="bg-cream py-16 px-8 relative">
+        {/* Background Image */}
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: "url('/textures/ca_background_texture_2.jpg')",
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+            opacity: 0.2,
+          }}
+        ></div>
+
         <div className="max-w-6xl mx-auto">
           <h2 className="text-center text-forestGreen font-bold mb-8">
             How It Works
@@ -63,7 +75,7 @@ export default function Home() {
       </section>
 
       {/* About Chef Andreas */}
-      <section className="bg-cream relative py-16 px-8 text-center">
+      <section className="bg-[#f7e9d3] relative py-16 px-8 text-center">
         {/* Background Image */}
         <div
           className="absolute inset-0"
@@ -72,6 +84,7 @@ export default function Home() {
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center",
+            boxShadow: "inset 0px 0px 30px rgba(0, 0, 0, 0.2)",
             opacity: 0.85,
           }}
         ></div>
@@ -98,7 +111,19 @@ export default function Home() {
       </section>
 
       {/* Featured Menu Section */}
-      <section className="bg-cream py-16 px-8">
+      <section className="bg-cream py-16 px-8 relative">
+        {/* Background Image */}
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: "url('/textures/ca_background_texture_2.jpg')",
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+            opacity: 0.2,
+          }}
+        ></div>
+
         <div className="max-w-4xl mx-auto">
           <h2 className="font-bold text-forestGreen mb-6 text-center">
             Our Signature Dishes
@@ -120,6 +145,7 @@ export default function Home() {
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center",
+            boxShadow: "inset 0px 0px 30px rgba(0, 0, 0, 0.2)",
             opacity: 0.2,
           }}
         ></div>
