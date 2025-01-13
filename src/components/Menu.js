@@ -24,7 +24,7 @@ export default async function Menu() {
     }
 
     return (
-        <div className="bg-cream min-h-screen p-8 max-w-4xl mx-auto">
+        <div className="bg-cream min-h-screen p-8 max-w-4xl mx-auto ">
             {menuData.map((category) => (
                 <section key={category.id} className="mb-12">
                     <h2 className="font-bold text-forestGreen mb-4">{category.category}</h2>

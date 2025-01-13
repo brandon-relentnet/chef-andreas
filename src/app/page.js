@@ -114,7 +114,7 @@ export default function Home() {
       <section className="bg-cream py-16 px-8 relative">
         {/* Background Image */}
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 z-0 pointer-events-none"
           style={{
             backgroundImage: "url('/textures/ca_background_texture_2.jpg')",
             backgroundSize: "cover",
@@ -124,7 +124,7 @@ export default function Home() {
           }}
         ></div>
 
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-4xl mx-auto z-10">
           <h2 className="font-bold text-forestGreen mb-6 text-center">
             Our Signature Dishes
           </h2>
