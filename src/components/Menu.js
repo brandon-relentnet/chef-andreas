@@ -4,7 +4,7 @@ export default async function Menu() {
     let menuData = [];
 
     try {
-        const res = await fetch("http://localhost:3000/api/menu", {
+        const res = await fetch(`${process.env.WEB_URL || "http://localhost:3000"}/api/menu`, {
             cache: "no-store",
         });
         if (!res.ok) {
