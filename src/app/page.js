@@ -16,7 +16,7 @@ export default function Home() {
 
       {/* Featured Carousel */}
       <section className="bg-[#f7e9d3] relative py-28 px-8 text-center">
-        {/* Background Image */}
+        {/* Background Texture */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
@@ -29,7 +29,29 @@ export default function Home() {
             zIndex: 0,
           }}
         />
-        
+
+        {/* Top Left Grape Vine */}
+        <div className="absolute top-0 left-0 m-4 invisible md:visible" style={{ zIndex: 1 }}>
+          <Image
+            src="/textures/ca_vine_2.png"
+            alt="Top-left grape vine"
+            width={250}
+            height={250}
+            priority // optional: ensures this image is loaded first
+          />
+        </div>
+
+        {/* Bottom Right Grape Vine */}
+        <div className="absolute bottom-0 right-0 m-4 invisible md:visible" style={{ zIndex: 1 }}>
+          <Image
+            src="/textures/ca_vine_2.png"
+            alt="Bottom-right grape vine"
+            width={250}
+            height={250}
+            className="rotate-180"
+          />
+        </div>
+
         {/* Content */}
         <h2 className="font-bold text-deepRed mb-6 text-center">
           Signature Dishes
@@ -39,6 +61,7 @@ export default function Home() {
         </p>
         <FeaturedCarousel slides={SLIDES} options={OPTIONS} />
       </section>
+
       {/* How It Works */}
       <section className="bg-cream px-8 relative">
         {/* Background Image */}
@@ -120,6 +143,29 @@ export default function Home() {
             zIndex: 0,
           }}
         />
+
+        {/* Top Left Grape Vine */}
+        <div className="absolute top-0 left-0 mt-4 ml-12 invisible md:visible" style={{ zIndex: 1 }}>
+          <Image
+            src="/textures/ca_vine_1.png"
+            alt="Top-left grape vine"
+            width={250}
+            height={250}
+            priority
+            className="rotate-90"
+          />
+        </div>
+
+        {/* Bottom Right Grape Vine */}
+        <div className="absolute bottom-0 right-0 mb-4 mr-12 invisible md:visible" style={{ zIndex: 1 }}>
+          <Image
+            src="/textures/ca_vine_1.png"
+            alt="Bottom-right grape vine"
+            width={250}
+            height={250}
+            className="-rotate-90"
+          />
+        </div>
 
         {/* Content */}
         <div className="relative max-w-4xl mx-auto">
