@@ -24,10 +24,10 @@ export default async function Menu() {
     }
 
     return (
-        <div className="bg-cream min-h-screen p-8 max-w-4xl mx-auto ">
+        <div className="min-h-screen p-8 max-w-4xl mx-auto ">
             {menuData.map((category) => (
                 <section key={category.id} className="mb-12">
-                    <h2 className="font-bold text-forestGreen mb-4">{category.category}</h2>
+                    <h2 className="font-bold text-deepRed mb-4">{category.category}</h2>
                     <ul className="space-y-4">
                         {category.items.map((item) => (
                             <li
@@ -37,13 +37,13 @@ export default async function Menu() {
                                 <div>
                                     {/* Link to /product/[id] */}
                                     <Link href={`/product/${item.id}`}>
-                                        <h3 className="font-bold text-deepRed cursor-pointer">
+                                        <h3 className="font-bold text-slate-800 cursor-pointer">
                                             {item.name}
                                         </h3>
                                     </Link>
-                                    <p className="text-softBrown mt-1">{item.description}</p>
+                                    <p className="text-slate-700 mt-1">{item.description}</p>
                                 </div>
-                                <span className="text-deepRed font-semibold mt-2 md:mt-0">
+                                <span className="text-forestGreen font-semibold mt-2 md:mt-0">
                                     ${item.price}
                                 </span>
                             </li>

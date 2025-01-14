@@ -25,12 +25,12 @@ export default function HeroSection() {
                 </div>
 
                 {/* Title */}
-                <h1 className="font-bold text-deepRed leading-tight">
-                    Welcome to <span className="text-forestGreen">Chef Andreas</span>
+                <h1 className="font-bold text-slate-800 leading-tight">
+                    Cucina <span className="text-deepRed">Andreas</span>
                 </h1>
 
                 {/* Subtitle */}
-                <p className="text-softBrown mt-4 text-xl">
+                <p className="text-slate-700 text-xl">
                     Buon Appetito! Traditional Italian dishes, made with love and care.
                 </p>
 
