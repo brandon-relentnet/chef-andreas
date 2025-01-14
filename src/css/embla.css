@@ -1,0 +1,217 @@
+.embla {
+    max-width: 70rem;
+    margin: auto;
+    --slide-height: 19rem;
+    --slide-spacing: 1rem;
+    --slide-size: 100%;
+    --slide-spacing-sm: 1.6rem;
+    --slide-size-sm: 50%;
+    --slide-spacing-lg: 2rem;
+    --slide-size-lg: calc(100% / 3);
+}
+
+.embla__viewport {
+    overflow: hidden;
+}
+
+.embla__container {
+    backface-visibility: hidden;
+    display: flex;
+    touch-action: pan-y pinch-zoom;
+    margin-left: calc(var(--slide-spacing) * -1);
+}
+
+@media (min-width: 750px) {
+    .embla__container {
+        margin-left: calc(var(--slide-spacing-sm) * -1);
+    }
+}
+
+@media (min-width: 1200px) {
+    .embla__container {
+        margin-left: calc(var(--slide-spacing-lg) * -1);
+    }
+}
+
+.embla__slide {
+    min-width: 0;
+    flex: 0 0 var(--slide-size);
+    padding-left: var(--slide-spacing);
+}
+
+@media (min-width: 750px) {
+    .embla__slide {
+        flex: 0 0 var(--slide-size-sm);
+        padding-left: var(--slide-spacing-sm);
+    }
+}
+
+@media (min-width: 1200px) {
+    .embla__slide {
+        flex: 0 0 var(--slide-size-lg);
+        padding-left: var(--slide-spacing-lg);
+    }
+}
+
+.embla__slide__number {
+    box-shadow: inset 0 0 0 0.2rem var(--brand-primary);
+    border-radius: 0.5rem;
+    font-size: 4rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--slide-height);
+    user-select: none;
+    color: var(--text-body);
+}
+
+.embla__controls {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    justify-content: space-between;
+    gap: 1.2rem;
+    margin-top: 1.8rem;
+}
+
+.embla__buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
+    align-items: center;
+}
+
+.embla__button {
+    -webkit-tap-highlight-color: rgba(var(--text-high-contrast-rgb-value), 0.5);
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    touch-action: manipulation;
+    display: inline-flex;
+    text-decoration: none;
+    cursor: pointer;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    box-shadow: inset 0 0 0 0.2rem rgba(var(--brand-primary-rgb-value), 0.7);
+    width: 3.6rem;
+    height: 3.6rem;
+    z-index: 1;
+    border-radius: 50%;
+    color: var(--text-body);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.embla__button:disabled {
+    color: var(--text-low-contrast);
+    box-shadow: inset 0 0 0 0.2rem rgba(var(--brand-primary-rgb-value), 0.2);
+}
+
+.embla__button__svg {
+    width: 35%;
+    height: 35%;
+}
+
+.embla__dots {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: calc((2.6rem - 1.4rem) / 2 * -1);
+}
+
+.embla__dot {
+    -webkit-tap-highlight-color: rgba(var(--brand-primary-rgb-value), 0.3);
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    touch-action: manipulation;
+    display: inline-flex;
+    text-decoration: none;
+    cursor: pointer;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    width: 2.6rem;
+    height: 2.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.embla__dot:after {
+    box-shadow: inset 0 0 0 0.2rem rgba(var(--brand-primary-rgb-value), 0.2);
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    content: '';
+}
+
+.embla__dot--selected:after {
+    box-shadow: inset 0 0 0 0.2rem rgba(var(--brand-primary-rgb-value), 0.7);
+}
+
+html {
+    /* ========== BRAND COLORS ========== */
+    --brand-primary: rgb(139, 0, 0);
+    /* #8B0000 (deepRed) */
+    --brand-secondary: rgb(34, 139, 34);
+    /* #228B22 (forestGreen) */
+    --brand-alternative: rgb(250, 243, 224);
+    /* #FAF3E0 (cream) */
+
+    /* ========== TEXT COLORS ========== */
+    /* slate-800 -> #1E293B is rgb(30,41,59); slate-700 -> #334155 is rgb(51,65,85) */
+    --text-body: rgb(30, 41, 59);
+    /* slate-800 */
+    --text-comment: rgb(51, 65, 85);
+    /* slate-700 */
+    --text-high-contrast: rgb(30, 41, 59);
+    /* same as slate-800 */
+    --text-medium-contrast: rgb(51, 65, 85);
+    /* same as slate-700 */
+    --text-low-contrast: rgb(100, 116, 139);
+    /* ~ slate-500 (#64748B) */
+
+    /* ========== BORDER / DETAIL COLORS ========== */
+    /* These “detail” variables get used for outlines, borders, etc. */
+    /* If you want them more muted or warmer, adjust accordingly. */
+    --detail-high-contrast: rgb(209, 213, 219);
+    /* ~ slate-300 (#D1D5DB) */
+    --detail-medium-contrast: rgb(229, 231, 235);
+    /* ~ slate-200 (#E5E7EB) */
+    --detail-low-contrast: rgb(241, 245, 249);
+    /* ~ slate-50  (#F1F5F9) */
+
+    /* ========== ADMONITIONS (OPTIONAL) ========== */
+    /* You can customize these “callout” colors if you prefer. */
+    --admonition-note: rgb(34, 139, 34);
+    /* forestGreen */
+    --admonition-warning: rgb(255, 196, 9);
+    --admonition-danger: rgb(139, 0, 0);
+    /* deepRed */
+
+    /* ========== “RGB-VALUE” VERSIONS (OPTIONAL) ========== */
+    /* If you rely on the “-rgb-value” vars in your code, keep them updated below. */
+    --brand-primary-rgb-value: 139, 0, 0;
+    --brand-secondary-rgb-value: 34, 139, 34;
+    --brand-alternative-rgb-value: 250, 243, 224;
+    --background-site-rgb-value: 250, 243, 224;
+    --background-code-rgb-value: 244, 244, 244;
+    --text-body-rgb-value: 30, 41, 59;
+    --text-comment-rgb-value: 51, 65, 85;
+    --text-high-contrast-rgb-value: 30, 41, 59;
+    --text-medium-contrast-rgb-value: 51, 65, 85;
+    --text-low-contrast-rgb-value: 100, 116, 139;
+    --detail-high-contrast-rgb-value: 209, 213, 219;
+    --detail-medium-contrast-rgb-value: 229, 231, 235;
+    --detail-low-contrast-rgb-value: 241, 245, 249;
+    --admonition-note-rgb-value: 34, 139, 34;
+    --admonition-warning-rgb-value: 255, 196, 9;
+    --admonition-danger-rgb-value: 139, 0, 0;
+}

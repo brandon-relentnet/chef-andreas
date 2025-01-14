@@ -2,6 +2,11 @@ import HeroSection from "@/components/HeroSection";
 import Menu from "@/components/Menu";
 import Link from "next/link";
 import Image from "next/image";
+import FeaturedCarousel from "@/components/carousel/FeaturedCarousel";
+
+const OPTIONS = { align: 'start', loop: true, dragFree: true }
+const SLIDE_COUNT = 10
+const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
 
 export default function Home() {
   return (
@@ -9,6 +14,31 @@ export default function Home() {
       {/* Hero Section */}
       <HeroSection />
 
+      {/* Featured Carousel */}
+      <section className="bg-[#f7e9d3] relative py-28 px-8 text-center">
+        {/* Background Image */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage: "url('/textures/ca_background_texture_2.jpg')",
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+            boxShadow: "inset 0px 0px 30px rgba(0, 0, 0, 0.2)",
+            opacity: 0.2,
+            zIndex: 0,
+          }}
+        />
+        
+        {/* Content */}
+        <h2 className="font-bold text-deepRed mb-6 text-center">
+          Signature Dishes
+        </h2>
+        <p className="text-slate-700 mb-12 text-center">
+          Explore a curated selection of our customer favorites. Buon Appetito!
+        </p>
+        <FeaturedCarousel slides={SLIDES} options={OPTIONS} />
+      </section>
       {/* How It Works */}
       <section className="bg-cream px-8 relative">
         {/* Background Image */}
@@ -124,14 +154,14 @@ export default function Home() {
             opacity: 0.2,
             zIndex: 0,
           }}
-        ></div>
+        />
 
         <div className="max-w-4xl mx-auto z-10 relative">
           <h2 className="font-bold text-deepRed mb-6 text-center">
             Il Menù
           </h2>
           <p className="text-slate-700 mb-12 text-center">
-            Explore a curated selection of our customer favorites. Buon Appetito!
+            View our curated selection of traditional Italian dishes, click on any item to view more details.
           </p>
           <Menu />
         </div>

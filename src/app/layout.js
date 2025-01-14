@@ -1,6 +1,7 @@
 import localFont from 'next/font/local';
 import { Noto_Serif_Georgian } from 'next/font/google'; // Use the correct name with underscores
-import "./globals.css";
+import "@/css/globals.css";
+import "@/css/embla.css";
 import Link from "next/link";
 
 // Load Stuyvesant font (local)
