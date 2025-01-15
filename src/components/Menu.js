@@ -1,26 +1,19 @@
 import Link from "next/link";
 
-export default async function Menu() {
+export const revalidate = 60; // re-generate every 60 seconds
+
+export default async function MenuPage() {
     let menuData = [];
 
     try {
-        const res = await fetch(`${process.env.WEB_URL || "http://localhost:3000"}/api/menu`, {
-            cache: "no-store",
-        });
+        // no need for cache: 'no-store' if you want ISR
+        const res = await fetch(`${process.env.WEB_URL}/api/menu`);
         if (!res.ok) {
             throw new Error("Failed to fetch menu data");
         }
         menuData = await res.json();
     } catch (error) {
         console.error("Error fetching menu data:", error);
-    }
-
-    if (!menuData || menuData.length === 0) {
-        return (
-            <div className="text-center">
-                <h1>Menu is currently unavailable.</h1>
-            </div>
-        );
     }
 
     return (
@@ -35,7 +28,6 @@ export default async function Menu() {
                                 className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-300 pb-4"
                             >
                                 <div>
-                                    {/* Link to /product/[id] */}
                                     <Link href={`/product/${item.id}`}>
                                         <h3 className="font-bold text-slate-800 cursor-pointer">
                                             {item.name}
