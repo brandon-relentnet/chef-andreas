@@ -5,7 +5,7 @@ import FeaturedCarousel from "@/components/carousel/FeaturedCarousel";
 export const dynamic = "force-dynamic";
 
 const OPTIONS = { align: "start", loop: true, dragFree: true };
-const url = `${"http://localhost:3000" || process.env.WEB_URL}/api/menu?featured=1`;
+const url = `${process.env.WEB_URL || "http://localhost:3000"}/api/menu?featured=1`;
 
 export default async function FeaturedCarouselSection() {
     // Fetch only featured items from your API
