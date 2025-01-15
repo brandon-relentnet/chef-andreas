@@ -4,13 +4,37 @@ import db from "@/lib/db";
 import { promises as fs } from "fs";
 import path from "path";
 
+export async function PATCH(request) {
+    const { itemId, featured } = await request.json();
+    await db.query(`UPDATE items SET featured=? WHERE id=?`, [featured ? 1 : 0, itemId]);
+    return NextResponse.json({ message: "Featured updated" });
+}
+
 /**
  * GET: Get All Categories & Items
+ * Optional: If `?featured=1`, only return featured items (flattened or grouped).
  */
-export async function GET() {
+export async function GET(request) {
     try {
+        const { searchParams } = new URL(request.url);
+        const featuredParam = searchParams.get("featured"); // '1' or null
+
+        // If we're only fetching featured items
+        if (featuredParam === "1") {
+            // Grab only items that are featured, plus category data if needed
+            const [rows] = await db.query(`
+        SELECT i.id, i.name, i.description, i.price, i.imageUrl, i.featured,
+               c.id as categoryId, c.name as categoryName
+        FROM items i
+        JOIN categories c ON i.categoryId = c.id
+        WHERE i.featured = 1
+      `);
+            // Return as a flat list of featured items (each includes category info if desired)
+            return NextResponse.json(rows);
+        }
+
+        // Otherwise, get all categories, plus their items
         const [categories] = await db.query(`SELECT * FROM categories`);
-        // For each category, fetch items
         const results = [];
         for (const cat of categories) {
             const [items] = await db.query(
@@ -25,6 +49,8 @@ export async function GET() {
                     name: i.name,
                     description: i.description,
                     price: i.price,
+                    imageUrl: i.imageUrl,
+                    featured: !!i.featured, // boolean
                 })),
             });
         }
@@ -37,7 +63,7 @@ export async function GET() {
 
 /**
  * POST: Add a new Item (with optional image upload).
- * Accepts multipart/form-data.
+ * Now also handles `featured` (boolean).
  */
 export async function POST(request) {
     try {
@@ -46,15 +72,22 @@ export async function POST(request) {
         const name = form.get("name");
         const description = form.get("description");
         const price = form.get("price");
-        const file = form.get("image"); // This is a File object (or null if none uploaded)
+        const file = form.get("image");
+        // If you add a checkbox named "featured" in your form, it might come back as "on".
+        // For example: formData.append("featured", featured ? "on" : "");
+        let featured = form.get("featured"); // could be "on" or "" or null
 
-        // Validate basic fields
+        // Basic fields check
         if (!category || !name || !description || !price) {
             return NextResponse.json(
                 { error: "Missing required fields" },
                 { status: 400 }
             );
         }
+
+        // Convert featured to a 0/1
+        // If your form uses "on" for featured, do this:
+        featured = featured === "on" ? 1 : 0;
 
         // 1) Find or create category
         const [catRows] = await db.query(
@@ -63,7 +96,6 @@ export async function POST(request) {
         );
         let categoryId;
         if (catRows.length === 0) {
-            // Insert new category
             const [catResult] = await db.query(
                 `INSERT INTO categories (name) VALUES (?)`,
                 [category]
@@ -76,32 +108,23 @@ export async function POST(request) {
         // 2) If we have a file, store it in /public/uploads
         let imageUrl = null;
         if (file && file.size > 0) {
-            // Convert the File into a Buffer
             const buffer = Buffer.from(await file.arrayBuffer());
-
-            // Create a unique filename (this is a simplistic approach)
             const ext = path.extname(file.name) || ".jpg";
             const baseName = path.basename(file.name, ext);
             const timestamp = Date.now();
             const fileName = `${baseName}-${timestamp}${ext}`;
-
-            // Write the file into /public/uploads
             const uploadsDir = path.join(process.cwd(), "public", "uploads");
-            // Ensure the folder exists
             await fs.mkdir(uploadsDir, { recursive: true });
-            // Write the file
             const filePath = path.join(uploadsDir, fileName);
             await fs.writeFile(filePath, buffer);
-
-            // This is the path the user can access in the browser
             imageUrl = "/uploads/" + fileName;
         }
 
-        // 3) Insert item into DB, including imageUrl if we have one
+        // 3) Insert item into DB (including featured)
         await db.query(
-            `INSERT INTO items (name, description, price, categoryId, imageUrl)
-       VALUES (?, ?, ?, ?, ?)`,
-            [name, description, parseFloat(price), categoryId, imageUrl]
+            `INSERT INTO items (name, description, price, categoryId, imageUrl, featured)
+       VALUES (?, ?, ?, ?, ?, ?)`,
+            [name, description, parseFloat(price), categoryId, imageUrl, featured]
         );
 
         return NextResponse.json({ message: "Item added successfully" }, { status: 201 });

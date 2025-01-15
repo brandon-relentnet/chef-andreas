@@ -1,12 +1,24 @@
+// /app/(wherever)/FeaturedCarouselSection.js
 import Section from "./Section";
 import FeaturedCarousel from "@/components/carousel/FeaturedCarousel";
 
-// Example carousel configs
-const OPTIONS = { align: "start", loop: true, dragFree: true };
-const SLIDE_COUNT = 10;
-const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
+export const dynamic = "force-dynamic";
 
-export default function FeaturedCarouselSection() {
+const OPTIONS = { align: "start", loop: true, dragFree: true };
+const url = `${"http://localhost:3000" || process.env.WEB_URL}/api/menu?featured=1`;
+
+export default async function FeaturedCarouselSection() {
+    // Fetch only featured items from your API
+    const res = await fetch(
+        url,
+        {
+            // e.g. revalidate: 60 for ISR, or cache: "no-store"
+            next: { revalidate: 60 },
+        }
+    );
+    const featuredItems = await res.json();
+
+    // Pass the entire array to the carousel as "slides"
     return (
         <Section
             backgroundColor="bg-[#f7e9d3]"
@@ -19,7 +31,7 @@ export default function FeaturedCarouselSection() {
             <p className="text-slate-700 mb-12 text-center">
                 Explore a curated selection of our customer favorites. Buon Appetito!
             </p>
-            <FeaturedCarousel slides={SLIDES} options={OPTIONS} />
+            <FeaturedCarousel slides={featuredItems} options={OPTIONS} />
         </Section>
     );
 }

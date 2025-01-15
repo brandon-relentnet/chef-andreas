@@ -1,36 +1,57 @@
+// /components/carousel/FeaturedCarousel.js
 "use client";
 
-import { DotButton, useDotButton } from './FeaturedCarouselDotButton'
+import { DotButton, useDotButton } from "./FeaturedCarouselDotButton";
 import {
     PrevButton,
     NextButton,
-    usePrevNextButtons
-} from './FeaturedCarouselArrowButtons'
-import useEmblaCarousel from 'embla-carousel-react'
+    usePrevNextButtons,
+} from "./FeaturedCarouselArrowButtons";
+import useEmblaCarousel from "embla-carousel-react";
+import Link from "next/link";
 
 const FeaturedCarousel = (props) => {
-    const { slides, options } = props
-    const [emblaRef, emblaApi] = useEmblaCarousel(options)
+    const { slides, options } = props;
+    // Now `slides` is an array of objects: [{ id, name, price, imageUrl, ...}, ...]
 
-    const { selectedIndex, scrollSnaps, onDotButtonClick } =
-        useDotButton(emblaApi)
+    const [emblaRef, emblaApi] = useEmblaCarousel(options);
+
+    const { selectedIndex, scrollSnaps, onDotButtonClick } = useDotButton(emblaApi);
 
     const {
         prevBtnDisabled,
         nextBtnDisabled,
         onPrevButtonClick,
-        onNextButtonClick
-    } = usePrevNextButtons(emblaApi)
+        onNextButtonClick,
+    } = usePrevNextButtons(emblaApi);
 
     return (
         <section className="embla">
             <div className="embla__viewport" ref={emblaRef}>
                 <div className="embla__container">
-                    {slides.map((index) => (
-                        <div className="embla__slide" key={index}>
-                            <div className="embla__slide__number">{index + 1}</div>
+
+                    {/* Map over each item object instead of an index */}
+                    {slides.map((item) => (
+                        
+                        <div className="embla__slide" key={item.id}>
+                            <Link href={`/product/${item.id}`}>
+                            {/* Use the item’s imageUrl, name, and price */}
+                            <img
+                                src={item.imageUrl || "/no-image.jpg"}
+                                alt={item.name}
+                                className="embla__slide__img rounded shadow"
+                            />
+                            <div className="embla__slide__details p-4">
+                                <div className="flex justify-between items-center mb-4">
+                                    <h3 className="font-bold text-slate-800">{item.name}</h3>
+                                    <p className="text-forestGreen mb-0 ml-2">${item.price}</p>
+                                </div>
+                                <p className="text-slate-700">{item.description}</p>
+                            </div>
+                            </Link>
                         </div>
                     ))}
+
                 </div>
             </div>
 
@@ -45,15 +66,15 @@ const FeaturedCarousel = (props) => {
                         <DotButton
                             key={index}
                             onClick={() => onDotButtonClick(index)}
-                            className={'embla__dot'.concat(
-                                index === selectedIndex ? ' embla__dot--selected' : ''
-                            )}
+                            className={
+                                "embla__dot" + (index === selectedIndex ? " embla__dot--selected" : "")
+                            }
                         />
                     ))}
                 </div>
             </div>
         </section>
-    )
-}
+    );
+};
 
 export default FeaturedCarousel;
