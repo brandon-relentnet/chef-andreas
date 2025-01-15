@@ -17,10 +17,8 @@ export default function HeroSection() {
                     <Image
                         src="/ca_logo.png"
                         width={96}
-                        height={96}
+                        height={97}
                         alt="Chef Andreas Logo"
-                        style={{ height: "auto", width: "auto" }}
-                        priority
                     />
                 </div>
 

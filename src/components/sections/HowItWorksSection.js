@@ -15,6 +15,7 @@ export default function HowItWorksSection() {
                                 alt="Order Online"
                                 fill
                                 className="rounded-full shadow-lg object-cover"
+                                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 33vw, 300px"
                             />
                         </div>
                         <h3 className="font-bold text-slate-800 mb-2">1. Order Online</h3>
@@ -31,6 +32,7 @@ export default function HowItWorksSection() {
                                 alt="Chef Prepares"
                                 fill
                                 className="rounded-full shadow-lg object-cover"
+                                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 33vw, 300px"
                             />
                         </div>
                         <h3 className="font-bold text-slate-800 mb-2">2. Chef Prepares</h3>
@@ -47,6 +49,7 @@ export default function HowItWorksSection() {
                                 alt="Pick Up"
                                 fill
                                 className="rounded-full shadow-lg object-cover"
+                                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 33vw, 300px"
                             />
                         </div>
                         <h3 className="font-bold text-slate-800 mb-2">3. Pick Up & Enjoy</h3>

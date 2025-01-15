@@ -5,13 +5,14 @@ import "@/css/embla.css";
 import Link from "next/link";
 
 // Load Stuyvesant font (local)
-const Stuyvesant = localFont({ src: '../fonts/Stuyvesant.otf' });
+const Stuyvesant = localFont({ src: '../fonts/Stuyvesant.otf', preload: false });
 
 // Load Noto Serif Georgian font (Google)
 const notoSerifGeorgian = Noto_Serif_Georgian({
   subsets: ['latin'],
   weight: ['100', '300', '400', '700', '900'],
   display: 'swap', // Ensures faster rendering with fallback
+  preload: false,
 });
 
 export const metadata = {

@@ -1,3 +1,4 @@
+import { Autour_One } from "next/font/google";
 import Section from "./Section";
 import Image from "next/image";
 
@@ -9,10 +10,10 @@ export default function ChefAndreasSection() {
                 <Image
                     src="/images/ca_about_me_2.jpg"
                     alt="Chef Andreas"
-                    width={400}
-                    height={400}
+                    width={300}
+                    height={300}
                     className="rounded shadow-lg mx-auto mb-12"
-                    priority
+                    style={{ width: "auto", height: "auto" }}
                 />
                 <h3 className="font-bold text-slate-800 mb-6">Award Winning Chef & Publisher</h3>
                 <p className="text-slate-700 leading-relaxed">

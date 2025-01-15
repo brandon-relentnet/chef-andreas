@@ -43,7 +43,7 @@ export default function Section({
                         alt="Top-left grape vine"
                         width={250}
                         height={250}
-                        priority
+                        style={{ width: "auto", height: "auto" }}
                     />
                 </div>
             )}
@@ -60,6 +60,7 @@ export default function Section({
                         width={250}
                         height={250}
                         className="rotate-180"
+                        style={{ width: "auto", height: "auto" }}
                     />
                 </div>
             )}
