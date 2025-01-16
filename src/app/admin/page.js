@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import Section from "@/components/sections/Section";
 
 /**
  * A small helper function to handle fetch requests
@@ -226,120 +227,129 @@ export default function AdminPage() {
     };
 
     return (
-        <div className="p-6 my-20">
-            <h1 className="text-forestGreen mb-6">Admin Page</h1>
+        <div>
+            <Section backgroundColor="bg-[#f7e9d3]" withBoxShadow>
+                {/* ADD ITEM FORM */}
+                <form onSubmit={handleAddItem}>
+                    <h2 className="text-deepRed mb-4">Add New Menu Item</h2>
 
-            {/* ADD ITEM FORM */}
-            <form onSubmit={handleAddItem} className="mb-8 border border-softBrown p-4 rounded">
-                <h2 className="text-deepRed mb-4">Add New Menu Item</h2>
+                    {/* Existing Category Dropdown */}
+                    <div className="mb-4">
+                        <label className="text-slate-700 block mb-1">Select Existing Category:</label>
+                        <select
+                            className="border p-2 rounded w-full"
+                            value={selectedCategory}
+                            onChange={(e) => {
+                                setSelectedCategory(e.target.value);
+                                setNewCategory("");
+                            }}
+                        >
+                            <option value="">-- None / Not Selected --</option>
+                            {menuData.map((cat) => (
+                                <option key={cat.id} value={cat.category}>
+                                    {cat.category}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
 
-                {/* Existing Category Dropdown */}
-                <div className="mb-4">
-                    <label className="text-softBrown block mb-1">Select Existing Category:</label>
-                    <select
-                        className="border p-2 rounded w-full"
-                        value={selectedCategory}
-                        onChange={(e) => {
-                            setSelectedCategory(e.target.value);
-                            setNewCategory("");
-                        }}
-                    >
-                        <option value="">-- None / Not Selected --</option>
-                        {menuData.map((cat) => (
-                            <option key={cat.id} value={cat.category}>
-                                {cat.category}
-                            </option>
-                        ))}
-                    </select>
-                </div>
+                    {/* OR Add New Category */}
+                    <div className="mb-4">
+                        <label className="text-slate-700 block mb-1">Or Add a New Category:</label>
+                        <input
+                            type="text"
+                            className="border-2 border-cream hover:border-deepRed focus:border-forestGreen p-2 rounded w-full outline-none bg-cream transition duration-300"
+                            value={newCategory}
+                            onChange={(e) => {
+                                setNewCategory(e.target.value);
+                                setSelectedCategory("");
+                            }}
+                        />
+                    </div>
 
-                {/* OR Add New Category */}
-                <div className="mb-4">
-                    <label className="text-softBrown block mb-1">Or Add a New Category:</label>
-                    <input
-                        type="text"
-                        className="border p-2 rounded w-full outline-none"
-                        value={newCategory}
-                        onChange={(e) => {
-                            setNewCategory(e.target.value);
-                            setSelectedCategory("");
-                        }}
-                        placeholder="Type a new category name..."
-                    />
-                </div>
+                    {/* Name */}
+                    <div className="mb-4">
+                        <label className="text-slate-700 block mb-1">Item Name:</label>
+                        <input
+                            type="text"
+                            className="border-2 border-cream hover:border-deepRed focus:border-forestGreen p-2 rounded w-full outline-none bg-cream transition duration-300"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                        />
+                    </div>
 
-                {/* Name */}
-                <div className="mb-4">
-                    <label className="text-softBrown block mb-1">Item Name:</label>
-                    <input
-                        type="text"
-                        className="border p-2 rounded w-full outline-none"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                    />
-                </div>
+                    {/* Description */}
+                    <div className="mb-4">
+                        <label className="text-slate-700 block mb-1">Description:</label>
+                        <textarea
+                            className="border-2 border-cream hover:border-deepRed focus:border-forestGreen p-2 rounded w-full outline-none bg-cream transition duration-300"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                        />
+                    </div>
 
-                {/* Description */}
-                <div className="mb-4">
-                    <label className="text-softBrown block mb-1">Description:</label>
-                    <textarea
-                        className="border p-2 rounded w-full outline-none"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                    />
-                </div>
+                    {/* Price */}
+                    <div className="mb-4">
+                        <label className="text-slate-700 block mb-1">Price:</label>
+                        <input
+                            type="number"
+                            step="0.01"
+                            className="border-2 border-cream hover:border-deepRed focus:border-forestGreen p-2 rounded w-full outline-none bg-cream transition duration-300"
+                            value={price}
+                            onChange={(e) => setPrice(e.target.value)}
+                        />
+                    </div>
 
-                {/* Price */}
-                <div className="mb-4">
-                    <label className="text-softBrown block mb-1">Price:</label>
-                    <input
-                        type="number"
-                        step="0.01"
-                        className="border p-2 rounded w-full outline-none"
-                        value={price}
-                        onChange={(e) => setPrice(e.target.value)}
-                    />
-                </div>
+                    {/* Featured Checkbox */}
+                    <div className="mb-4 inline-flex items-center">
+                        <label className="flex items-center cursor-pointer relative" htmlFor="featured">
+                            <input
+                                type="checkbox"
+                                id="featured"
+                                checked={isFeatured}
+                                onChange={() => setIsFeatured(!isFeatured)}
+                                className="peer h-5 w-5 cursor-pointer transition duration-300 appearance-none rounded shadow hover:shadow-md bg-cream border-2 border-cream hover:border-deepRed checked:bg-forestGreen checked:border-forestGreen checked:hover:border-forestGreen"
+                            />
+                            <span className="absolute text-cream opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"
+                                    stroke="currentColor" strokeWidth="1">
+                                    <path fillRule="evenodd"
+                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                        clipRule="evenodd"></path>
+                                </svg>
+                            </span>
+                        </label>
+                        <label htmlFor="featured" className="cursor-pointer ml-2 text-slate-700">
+                            Mark as Featured
+                        </label>
+                    </div>
 
-                {/* Featured Checkbox */}
-                <div className="mb-4 flex items-center">
-                    <input
-                        type="checkbox"
-                        id="featured"
-                        checked={isFeatured}
-                        onChange={() => setIsFeatured(!isFeatured)}
-                        className="mr-2"
-                    />
-                    <label htmlFor="featured" className="text-softBrown">
-                        Mark as Featured
-                    </label>
-                </div>
+                    {/* Image Upload (optional) */}
+                    <div className="mb-4">
+                        <label className="text-slate-700 block mb-1">Image (optional):</label>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => {
+                                if (e.target.files && e.target.files.length > 0) {
+                                    setImageFile(e.target.files[0]);
+                                }
+                            }}
+                        />
+                        {imageFile && (
+                            <p className="text-sm text-gray-700 mt-1">Selected: {imageFile.name}</p>
+                        )}
+                    </div>
 
-                {/* Image Upload (optional) */}
-                <div className="mb-4">
-                    <label className="text-softBrown block mb-1">Image (optional):</label>
-                    <input
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => {
-                            if (e.target.files && e.target.files.length > 0) {
-                                setImageFile(e.target.files[0]);
-                            }
-                        }}
-                    />
-                    {imageFile && (
-                        <p className="text-sm text-gray-700 mt-1">Selected: {imageFile.name}</p>
-                    )}
-                </div>
+                    <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
+                        Add Item
+                    </button>
+                </form>
+            </Section>
 
-                <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
-                    Add Item
-                </button>
-            </form>
-
-            {/* MANAGE ITEMS SECTION */}
-            <section className="border border-gray-300 p-4 rounded">
-                <h2 className="text-2xl font-bold mb-4">Manage Items</h2>
+            <Section backgroundColor="bg-cream">
+                {/* MANAGE ITEMS SECTION */}
+                <h2 className="font-bold mb-6 text-deepRed">Manage Items</h2>
 
                 {menuData.length === 0 ? (
                     <p>No categories or items found.</p>
@@ -348,10 +358,10 @@ export default function AdminPage() {
                         {menuData.map((cat) => (
                             <div key={cat.id} className="mb-6">
                                 <div className="flex items-center justify-between">
-                                    <h3 className="text-xl font-bold">{cat.category}</h3>
+                                    <h3 className="font-bold text-slate-800">{cat.category}</h3>
                                     <button
                                         onClick={() => handleDeleteCategory(cat.category)}
-                                        className="bg-red-500 text-white px-3 py-1 rounded"
+                                        className="bg-red-300 text-cream px-3 py-1 rounded hover:bg-red-500 hover:text-white transition duration-300"
                                     >
                                         Delete Entire Category
                                     </button>
@@ -365,34 +375,62 @@ export default function AdminPage() {
                                         return (
                                             <li key={item.id} className="flex items-center justify-between mb-2">
                                                 <div>
-                                                    {/* Checkbox for mass delete */}
-                                                    <input
-                                                        type="checkbox"
-                                                        checked={isSelected}
-                                                        onChange={() => toggleItemSelection(itemKey)}
-                                                        className="mr-2"
-                                                    />
-                                                    <span className="font-semibold">{item.name}</span>{" "}
-                                                    - ${item.price}
-                                                    <p className="text-sm text-gray-600">{item.description}</p>
+                                                    <span className="font-semibold text-slate-800 text-xl">{item.name}</span>{" "}
+                                                    - <span className="text-forestGreen">${item.price}</span>
+                                                    <p className="text-slate-700 text-sm mb-2">{item.description}</p>
 
-                                                    {/**
-                           * Optional: Toggle featured with a small button
-                           * if you have PATCH logic set up in the route
-                           */}
-                                                    <div className="mt-1">
-                                                        <label className="mr-2">Featured:</label>
-                                                        <input
-                                                            type="checkbox"
-                                                            checked={item.featured}
-                                                            onChange={() => handleToggleFeatured(item.id, item.featured)}
-                                                        />
+                                                    {/* Featured Toggle */}
+                                                    <div>
+                                                        <div className="mb-4 inline-flex items-center mr-8">
+                                                            <label className="flex items-center cursor-pointer relative" htmlFor={`mass-featured-${item.id}`}>
+                                                                <input
+                                                                    type="checkbox"
+                                                                    checked={item.featured}
+                                                                    onChange={() => handleToggleFeatured(item.id, item.featured)}
+                                                                    id={`mass-featured-${item.id}`}
+                                                                    className="peer h-5 w-5 cursor-pointer transition duration-300 appearance-none rounded shadow hover:shadow-md bg-[#f7e9d3] border-2 border-slate-600 hover:border-deepRed checked:bg-forestGreen checked:border-forestGreen checked:hover:border-forestGreen"
+                                                                />
+                                                                <span className="absolute text-[#f7e9d3] opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"
+                                                                        stroke="currentColor" strokeWidth="1">
+                                                                        <path fillRule="evenodd"
+                                                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                                            clipRule="evenodd"></path>
+                                                                    </svg>
+                                                                </span>
+                                                            </label>
+                                                            <label htmlFor={`mass-featured-${item.id}`} className="cursor-pointer ml-2 text-slate-700">
+                                                                Mark as Featured
+                                                            </label>
+                                                        </div>
+                                                        <div className="mb-4 inline-flex items-center">
+                                                            {/* Checkbox for mass delete */}
+                                                            <label className="flex items-center cursor-pointer relative" htmlFor={`mass-delete-${item.id}`}>
+                                                                <input
+                                                                    type="checkbox"
+                                                                    checked={isSelected}
+                                                                    onChange={() => toggleItemSelection(itemKey)}
+                                                                    id={`mass-delete-${item.id}`}
+                                                                    className="peer h-5 w-5 cursor-pointer transition duration-300 appearance-none rounded shadow hover:shadow-md bg-[#f7e9d3] border-2 border-slate-600 hover:border-deepRed checked:bg-deepRed checked:border-deepRed"
+                                                                />
+                                                                <span className="absolute text-[#f7e9d3] opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"
+                                                                        stroke="currentColor" strokeWidth="1">
+                                                                        <path fillRule="evenodd"
+                                                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                                            clipRule="evenodd"></path>
+                                                                    </svg>
+                                                                </span>
+                                                            </label>
+                                                            <label htmlFor={`mass-delete-${item.id}`} className="cursor-pointer ml-2 text-slate-700">
+                                                                Mark for Deletion
+                                                            </label>
+                                                        </div>
                                                     </div>
                                                 </div>
-
                                                 <button
                                                     onClick={() => handleDeleteItem(cat.category, item.id)}
-                                                    className="bg-red-500 text-white px-2 py-1 rounded"
+                                                    className="bg-red-300 text-cream px-2 py-1 rounded hover:bg-red-500 hover:text-white transition duration-300"
                                                 >
                                                     Delete
                                                 </button>
@@ -407,14 +445,14 @@ export default function AdminPage() {
                         {selectedItems.size > 0 && (
                             <button
                                 onClick={handleMassDelete}
-                                className="bg-red-700 text-white px-4 py-2 rounded"
+                                    className="bg-red-300 text-cream px-4 py-2 rounded fixed bottom-0 left-1/2 mb-4 mr-4 -translate-x-1/2 hover:bg-red-500 hover:text-white transition duration-300"
                             >
                                 Delete Selected Items
                             </button>
                         )}
                     </>
                 )}
-            </section>
+            </Section>
         </div>
     );
 }
